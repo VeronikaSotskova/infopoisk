@@ -1,11 +1,12 @@
 import shutil
+from typing import Optional
 
 import requests
 
 from bs4 import BeautifulSoup
 
 
-def get_next_link(bs):
+def get_next_link(bs: BeautifulSoup) -> Optional[str]:
     """
     :param bs: BeautifulSoup
     :return: next_link: Optional[str]
@@ -35,11 +36,11 @@ def main():
         soup = BeautifulSoup(response.text, 'html.parser')
         site = open(f"sites/{i}.txt", "w", encoding="utf-8")
 
-        text = soup.select('article.entry-content')[0].text.split('\n')[0]
+        article = soup.find('article', {"class": "entry-content"}).get_text(separator=" ").strip()
         h1 = soup.select('h1')[0].text.strip()
 
         # записываем заголовок статьи и ее содержание
-        site.write(f"{h1}\n{text}")
+        site.write(f"{h1}\n{article}")
         site.close()
         index.write(f"{i} {link_start}\n")
         i += 1

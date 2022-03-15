@@ -59,7 +59,7 @@ def restruct(input_text: str) -> str:
     """
     operators = ["AND", "OR", "NOT"]
     split_text = input_text.split()
-    punctuation = """!"#$%&\'()*+,.:;<=>?@[\\]^_`{|}~"""
+    punctuation = """!"#$%&\'*+,.:;<=>?@[\\]^_`{|}~"""
     tt = str.maketrans(dict.fromkeys(f"{punctuation}“”«»"))
     functors_pos = {'CONJ', 'PREP', 'PRCL', 'INTJ'}
     text = []

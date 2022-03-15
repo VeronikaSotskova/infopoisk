@@ -106,12 +106,15 @@ def bool_search(search: str) -> set[int]:
     inverted_indexes = get_inverted_indexes()
 
     query = " ".join(res_q).replace("NOT ", "!").replace("OR", "|").replace("AND", "&")
-
     query_split = query.split()
     for word in query_split:
         if word not in ["&", "|"]:
             if word.startswith("!"):
                 query = query.replace(word, str(set(not_operator(word[1:], inverted_indexes))))
+            elif word.startswith("("):
+                query = query.replace(word[1:], str(set(inverted_indexes.get(word[1:], []))))
+            elif word[-1] == ")":
+                query = query.replace(word[:-1], str(set(inverted_indexes.get(word[:-1], []))))
             else:
                 query = query.replace(word, str(set(inverted_indexes.get(word, []))))
     try:
@@ -122,7 +125,7 @@ def bool_search(search: str) -> set[int]:
 
 
 def main():
-    # search_query = "день AND NOT москва"
+    # search_query = "(москва OR день) AND валентина"
     search_query = input("Найти: ")
     sites = get_sites()
     idxs = bool_search(search_query)

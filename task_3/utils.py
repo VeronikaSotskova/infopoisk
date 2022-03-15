@@ -67,5 +67,10 @@ def restruct(input_text: str) -> str:
         if el in operators:
             text.append(el)
         elif pos(el) not in functors_pos or el in ["–", "", " "] or is_digit(el):
-            text.append(lemmatize_word(el.lower().translate(tt).replace("/", " ")))
+            if el.startswith("("):
+                text.append("(" + lemmatize_word(el[1:].lower().translate(tt).replace("/", " ")))
+            elif el[-1] == ")":
+                text.append(lemmatize_word(el[:-1].lower().translate(tt).replace("/", " ")) + ")")
+            else:
+                text.append(lemmatize_word(el.lower().translate(tt).replace("/", " ")))
     return " ".join(text)

@@ -126,6 +126,7 @@ def bool_search(search: str) -> set[int]:
 
 def main():
     # search_query = "(москва OR день) AND валентина"
+    # search_query = "(социальные навыки) OR (доза государства)"
     search_query = input("Найти: ")
     sites = get_sites()
     idxs = bool_search(search_query)
